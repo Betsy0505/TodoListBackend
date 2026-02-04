@@ -1,19 +1,14 @@
-# Usa la imagen oficial de .NET 8 SDK para compilar
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
+WORKDIR /src
 
-# Copia los archivos del proyecto y restaura dependencias
-COPY *.csproj ./
-RUN dotnet restore
+# Copia explícitamente el archivo (esto ayuda a debuguear si no existe)
+COPY todoList.csproj ./
+RUN dotnet restore todoList.csproj
 
-# Copia el resto del código y publica la aplicación
-COPY . ./
-RUN dotnet publish -c Release -o out
+COPY . .
+RUN dotnet publish todoList.csproj -c Release -o /app/out
 
-# Usa la imagen de ASP.NET para ejecutar (más ligera)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
-
-# ¡IMPORTANTE! Asegúrate de que el nombre sea igual a tu proyecto
 ENTRYPOINT ["dotnet", "todoList.dll"]
