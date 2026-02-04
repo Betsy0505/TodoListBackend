@@ -1,20 +1,19 @@
-# Etapa de compilación
+# Usa la imagen oficial de .NET 8 SDK para compilar
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copiamos el archivo del proyecto y restauramos dependencias
-# Cambia 'todoList.csproj' si tu archivo se llama diferente
+# Copia los archivos del proyecto y restaura dependencias
 COPY *.csproj ./
 RUN dotnet restore
 
-# Copiamos el resto del código y compilamos
+# Copia el resto del código y publica la aplicación
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-# Etapa de ejecución
+# Usa la imagen de ASP.NET para ejecutar (más ligera)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
 
-# IMPORTANTE: Cambia 'todoList.dll' por el nombre real de tu proyecto
+# ¡IMPORTANTE! Asegúrate de que el nombre sea igual a tu proyecto
 ENTRYPOINT ["dotnet", "todoList.dll"]
