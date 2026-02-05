@@ -1,22 +1,22 @@
+# Stage 1: Build the application
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copia el archivo del proyecto
-COPY todoList.csproj ./
-RUN dotnet restore todoList.csproj
+COPY *.csproj ./
+RUN dotnet restore
 
-# Copia todo lo demás y publica
 COPY . .
-RUN dotnet publish todoList.csproj -c Release -o /app/out
 
-# Etapa final de ejecución
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+RUN dotnet publish -c Release -o /app/publish
+
+# Stage 2: Create the runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=build /app/out .
 
-# Configuramos el puerto 8080 para .NET 8
-ENV ASPNETCORE_URLS=http://+:8080
-EXPOSE 8080
+COPY --from=build /app/publish .
 
-# REEMPLAZA TU ANTIGUO ENTRYPOINT POR ESTE COMODÍN:
-ENTRYPOINT ["sh", "-c", "dotnet $(ls *.dll | head -n 1)"]
+EXPOSE 80
+
+# RECUERDA: Linux es sensible a mayúsculas/minúsculas. 
+# Si en tu explorador dice "todoList", aquí debe decir igual.
+ENTRYPOINT ["dotnet", "todoList.dll"]
