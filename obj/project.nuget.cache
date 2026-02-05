@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "u8NlatGyUlk=",
+  "dgSpecHash": "NRpWmHQRDsk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Betsy\\Desktop\\STUDY\\react-todolist\\backend\\todoList\\todoList.csproj",
+  "projectFilePath": "C:\\Users\\Betsy\\Desktop\\STUDY\\TodoListBackend\\todoList.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Betsy\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.23\\microsoft.aspnetcore.openapi.8.0.23.nupkg.sha512",
     "C:\\Users\\Betsy\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.0\\microsoft.entityframeworkcore.9.0.0.nupkg.sha512",
