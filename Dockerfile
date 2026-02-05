@@ -17,6 +17,4 @@ COPY --from=build /app/publish .
 
 EXPOSE 80
 
-# RECUERDA: Linux es sensible a mayúsculas/minúsculas. 
-# Si en tu explorador dice "todoList", aquí debe decir igual.
 ENTRYPOINT ["dotnet", "todoList.dll"]
