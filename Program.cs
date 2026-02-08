@@ -4,7 +4,8 @@ using todoList.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Configurar la Base de Datos
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+String connectionString = Environment.GetEnvironmentVariable("DefaultConnection") ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
